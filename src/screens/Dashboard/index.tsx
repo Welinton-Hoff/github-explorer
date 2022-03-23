@@ -1,50 +1,44 @@
-import { ListRenderItem, TextInput } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import { ListRenderItem, TextInput } from "react-native";
 
 import { Card } from "../../components/Card";
 import { Background } from "../../components/Background";
 
 import { useRepositories } from "../../hooks/useRepositories";
+import { RepositoryProps } from "../../contexts/RepositoriesProvider";
 
 import {
-  Icon,
   Input,
   Title,
   Container,
+  SearchIcon,
   InputField,
   InputButton,
   AddGithubRepo,
   RepositoriesList,
 } from "./styles";
-import { RepositoryProps } from "../../contexts/RepositoriesProvider";
 
 export function Dashboard() {
-  const [inputText, setInputText] = useState("");
-  const inputRef = useRef<TextInput>(null);
-
   const { navigate } = useNavigation();
-
+  const inputRef = useRef<TextInput>(null);
+  const [inputText, setInputText] = useState("");
   const { addRepository, repositories } = useRepositories();
+  const InputButtonEnabled = !inputText;
 
   function handleAddRepository() {
-    /**
+    /**s
      * TODO:
      * - call addRepository function sending inputText value;
      * - clean inputText value.
      */
+    addRepository(inputText);
     inputRef.current?.blur();
+    setInputText("");
   }
 
   function handleRepositoryPageNavigation(id: number) {
-    /**
-     * TODO - navigate to the Repository screen sending repository id.
-     * Remember to use the correct prop name (repositoryId) to the repositoy id:
-     *
-     * navigate(SCREEN NAME, {
-     *  repositoryId: id of the repository
-     * })
-     */
+    navigate("Repository", { repositoryId: id });
   }
 
   const renderItem: ListRenderItem<RepositoryProps> = ({ item }) => {
@@ -64,6 +58,10 @@ export function Dashboard() {
     );
   };
 
+  useEffect(() => {
+    console.log(repositories);
+  }, [repositories]);
+
   return (
     <Background>
       <Container>
@@ -77,25 +75,17 @@ export function Dashboard() {
               autoCorrect={false}
               returnKeyType="send"
               autoCapitalize="none"
+              onChangeText={setInputText}
               onSubmitEditing={handleAddRepository}
               placeholder="Digite aqui 'usuário/repositório'"
-              /**
-               * TODO - update inputText value when input text value
-               * changes:
-               * onChangeText={YOUR CODE HERE}
-               */
             />
 
             <InputButton
               testID="input-button"
+              disabled={!inputText}
               onPress={handleAddRepository}
-              /**
-               * TODO - ensure to disable button when inputText is
-               * empty (use disabled prop to this):
-               * disabled={CONDITION HERE}
-               */
             >
-              <Icon name="search" size={20} />
+              <SearchIcon />
             </InputButton>
           </Input>
         </AddGithubRepo>
@@ -103,7 +93,6 @@ export function Dashboard() {
         <RepositoriesList
           data={repositories}
           renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
           keyExtractor={(repository) => String(repository.id)}
         />
       </Container>

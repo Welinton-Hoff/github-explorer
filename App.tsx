@@ -28,7 +28,6 @@ export default function App() {
   return (
     <>
       <StatusBar
-        translucent
         barStyle="dark-content"
         backgroundColor={theme.colors.gray_50}
       />

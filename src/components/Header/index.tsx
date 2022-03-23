@@ -2,7 +2,7 @@ import React from "react";
 
 import {
   Logo,
-  Icon,
+  ArrowLeft,
   Container,
   BackButton,
   BlankSpace,
@@ -19,7 +19,7 @@ export function Header({ goBack }: HeaderProps) {
       <SafeAreaViewIOS>
         <Container>
           <BackButton onPress={goBack}>
-            <Icon name="arrow-left" size={20} />
+            <ArrowLeft />
           </BackButton>
 
           <Logo />

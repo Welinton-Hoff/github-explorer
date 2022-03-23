@@ -45,10 +45,15 @@ export const InputButton = styled.TouchableOpacity.attrs({
   border-bottom-right-radius: 5px;
 `;
 
-export const Icon = styled(Feather)`
+export const SearchIcon = styled(Feather).attrs({
+  size: 20,
+  name: "search",
+})`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-export const RepositoriesList = styled(FlatList)`
+export const RepositoriesList = styled(FlatList).attrs({
+  showsVerticalScrollIndicator: false,
+})`
   margin-top: 64px;
 ` as unknown as typeof FlatList;

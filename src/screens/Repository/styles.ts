@@ -1,12 +1,11 @@
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
-import { IssueProps } from "../../contexts/RepositoriesProvider";
 
 export const Container = styled.View`
   flex: 1;
 
-  margin-top: 100px;
   padding: 0 20px;
+  margin-top: 100px;
 `;
 
 export const RepoInfo = styled.View`
@@ -32,12 +31,12 @@ export const Description = styled.Text`
 `;
 
 export const RepoStats = styled.View`
-  margin-top: 24px;
-  padding: 0 20px;
-
   flex-direction: row;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
+
+  padding: 0 20px;
+  margin-top: 24px;
 `;
 
 export const Stars = styled.View`
@@ -50,8 +49,9 @@ export const StarsCounter = styled.Text`
   color: ${({ theme }) => theme.colors.gray_800};
 `;
 
-export const StarsText = styled.Text`
+export const PlainText = styled.Text`
   font-size: 18px;
+  text-align: center;
   color: ${({ theme }) => theme.colors.gray_500};
 `;
 
@@ -65,11 +65,6 @@ export const ForksCounter = styled.Text`
   color: ${({ theme }) => theme.colors.gray_800};
 `;
 
-export const ForksText = styled.Text`
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.gray_500};
-`;
-
 export const OpenIssues = styled.View`
   align-items: center;
 `;
@@ -80,12 +75,14 @@ export const OpenIssuesCounter = styled.Text`
   color: ${({ theme }) => theme.colors.gray_800};
 `;
 
-export const OpenIssuesText = styled.Text`
-  text-align: center;
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.gray_500};
+export const NoIssueContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `;
 
-export const IssuesList = styled(FlatList as new () => FlatList<IssueProps>)`
+export const IssuesList = styled(FlatList).attrs({
+  showsVerticalScrollIndicator: false,
+})`
   margin-top: 50px;
-`;
+` as unknown as typeof FlatList;

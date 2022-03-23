@@ -1,6 +1,6 @@
 import React from "react";
-import { Linking } from "react-native";
 import { useRoute } from "@react-navigation/core";
+import { Linking, ListRenderItem } from "react-native";
 import { useRepositories } from "../../hooks/useRepositories";
 
 import { Card } from "../../components/Card";
@@ -14,17 +14,17 @@ import {
   Container,
   TextGroup,
   RepoStats,
-  StarsText,
-  ForksText,
+  PlainText,
   OpenIssues,
   IssuesList,
   OwnerAvatar,
   Description,
   StarsCounter,
   ForksCounter,
-  OpenIssuesText,
+  NoIssueContainer,
   OpenIssuesCounter,
 } from "./styles";
+import { IssueProps } from "../../contexts/RepositoriesProvider";
 
 interface RepositoryParams {
   repositoryId: number;
@@ -38,73 +38,76 @@ export function Repository() {
 
   function handleIssueNavigation(issueUrl: string) {
     // TODO - use Linking to open issueUrl in a browser
+    Linking.openURL(issueUrl);
   }
+
+  const renderItem: ListRenderItem<IssueProps> = ({ item }) => {
+    const data = {
+      id: item.id,
+      title: item.title,
+      subTitle: item.user.login,
+    };
+
+    return (
+      <Card
+        data={data}
+        key={item.id}
+        onPress={() => handleIssueNavigation(item.html_url)}
+      />
+    );
+  };
+
+  const HasIssues = () => {
+    if (repository.issues.length > 0) {
+      return (
+        <IssuesList
+          renderItem={renderItem}
+          data={repository.issues}
+          keyExtractor={(issue) => String(issue.id)}
+        />
+      );
+    }
+
+    return (
+      <NoIssueContainer>
+        <PlainText>Este repositório não possue nenhuma issue.</PlainText>
+      </NoIssueContainer>
+    );
+  };
 
   return (
     <Background>
       <Container>
         <RepoInfo>
-          {/* <OwnerAvatar source={{ uri:  }} /> */}
+          <OwnerAvatar source={{ uri: repository.owner.avatar_url }} />
 
           <TextGroup>
-            <TitleAnimation>
-              {
-                // TODO - full name of the repository
-              }
-            </TitleAnimation>
+            <TitleAnimation>{repository.full_name}</TitleAnimation>
 
             <Description numberOfLines={2}>
-              {
-                //TODO - repository description
-              }
+              {repository.description}
             </Description>
           </TextGroup>
         </RepoInfo>
 
         <RepoStats>
           <Stars>
-            <StarsCounter>
-              {
-                // TODO - repository stargazers count
-              }
-            </StarsCounter>
-            <StarsText>Stars</StarsText>
+            <StarsCounter>{repository.stargazers_count}</StarsCounter>
+            <PlainText>Stars</PlainText>
           </Stars>
 
           <Forks>
-            <ForksCounter>
-              {
-                // TODO - repository forks count
-              }
-            </ForksCounter>
-            <ForksText>Forks</ForksText>
+            <ForksCounter>{repository.forks_count}</ForksCounter>
+            <PlainText>Forks</PlainText>
           </Forks>
 
           <OpenIssues>
-            <OpenIssuesCounter>
-              {
-                // TODO - repository issues count
-              }
-            </OpenIssuesCounter>
-            <OpenIssuesText>Issues{"\n"}Abertas</OpenIssuesText>
+            <OpenIssuesCounter>{repository.issues.length}</OpenIssuesCounter>
+            <PlainText>Issues{"\n"}Abertas</PlainText>
           </OpenIssues>
         </RepoStats>
 
-        <IssuesList
-          data={repository.issues}
-          keyExtractor={(issue) => String(issue.id)}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item: issue }) => (
-            <Card
-              data={{
-                id: issue.id,
-                title: issue.title,
-                subTitle: issue.user.login,
-              }}
-              // TODO - onPress prop calling
-            />
-          )}
-        />
+        <HasIssues />
       </Container>
     </Background>
   );
