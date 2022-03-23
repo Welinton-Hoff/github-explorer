@@ -81,8 +81,8 @@ export function Card({ data, onPress }: CardProps) {
           ref={swipeableRef}
           rightThreshold={42}
           overshootRight={false}
-          renderRightActions={() => <SwipeableDelete />}
           onSwipeableRightOpen={handleDeleteAlert}
+          renderRightActions={() => <SwipeableDelete />}
         >
           <CardContent />
         </SwipeableContainer>

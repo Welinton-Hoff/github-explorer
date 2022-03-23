@@ -1,7 +1,9 @@
 import React from "react";
 import { useRoute } from "@react-navigation/core";
 import { Linking, ListRenderItem } from "react-native";
+
 import { useRepositories } from "../../hooks/useRepositories";
+import { IssueProps } from "../../contexts/RepositoriesProvider";
 
 import { Card } from "../../components/Card";
 import { TitleAnimation } from "./TitleAnimation";
@@ -24,7 +26,6 @@ import {
   NoIssueContainer,
   OpenIssuesCounter,
 } from "./styles";
-import { IssueProps } from "../../contexts/RepositoriesProvider";
 
 interface RepositoryParams {
   repositoryId: number;
@@ -37,7 +38,6 @@ export function Repository() {
   const repository = findRepositoryById(repositoryId);
 
   function handleIssueNavigation(issueUrl: string) {
-    // TODO - use Linking to open issueUrl in a browser
     Linking.openURL(issueUrl);
   }
 

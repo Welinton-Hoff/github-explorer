@@ -27,11 +27,6 @@ export function Dashboard() {
   const InputButtonEnabled = !inputText;
 
   function handleAddRepository() {
-    /**s
-     * TODO:
-     * - call addRepository function sending inputText value;
-     * - clean inputText value.
-     */
     addRepository(inputText);
     inputRef.current?.blur();
     setInputText("");
@@ -57,10 +52,6 @@ export function Dashboard() {
       />
     );
   };
-
-  useEffect(() => {
-    console.log(repositories);
-  }, [repositories]);
 
   return (
     <Background>
