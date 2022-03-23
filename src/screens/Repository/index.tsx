@@ -1,30 +1,30 @@
-import React from 'react';
-import { useRoute } from '@react-navigation/core';
-import { Linking } from 'react-native';
-import { useRepositories } from '../../hooks/useRepositories';
+import React from "react";
+import { Linking } from "react-native";
+import { useRoute } from "@react-navigation/core";
+import { useRepositories } from "../../hooks/useRepositories";
 
-import { Background } from '../../components/Background';
-import { Card } from '../../components/Card';
+import { Card } from "../../components/Card";
+import { TitleAnimation } from "./TitleAnimation";
+import { Background } from "../../components/Background";
 
 import {
-  Container,
-  RepoInfo,
-  OwnerAvatar,
-  TextGroup,
-  Description,
-  RepoStats,
   Stars,
-  StarsCounter,
-  StarsText,
   Forks,
-  ForksCounter,
+  RepoInfo,
+  Container,
+  TextGroup,
+  RepoStats,
+  StarsText,
   ForksText,
   OpenIssues,
-  OpenIssuesCounter,
-  OpenIssuesText,
   IssuesList,
-} from './styles';
-import { TitleAnimation } from './TitleAnimation';
+  OwnerAvatar,
+  Description,
+  StarsCounter,
+  ForksCounter,
+  OpenIssuesText,
+  OpenIssuesCounter,
+} from "./styles";
 
 interface RepositoryParams {
   repositoryId: number;
@@ -32,8 +32,8 @@ interface RepositoryParams {
 
 export function Repository() {
   const { params } = useRoute();
-  const { repositoryId } = params as RepositoryParams;
   const { findRepositoryById } = useRepositories();
+  const { repositoryId } = params as RepositoryParams;
   const repository = findRepositoryById(repositoryId);
 
   function handleIssueNavigation(issueUrl: string) {
@@ -53,38 +53,46 @@ export function Repository() {
               }
             </TitleAnimation>
 
-            <Description numberOfLines={2}>{
-              //TODO - repository description
-            }</Description>
+            <Description numberOfLines={2}>
+              {
+                //TODO - repository description
+              }
+            </Description>
           </TextGroup>
         </RepoInfo>
 
         <RepoStats>
           <Stars>
-            <StarsCounter>{
-              // TODO - repository stargazers count
-            }</StarsCounter>
+            <StarsCounter>
+              {
+                // TODO - repository stargazers count
+              }
+            </StarsCounter>
             <StarsText>Stars</StarsText>
           </Stars>
 
           <Forks>
-            <ForksCounter>{
-              // TODO - repository forks count
-            }</ForksCounter>
+            <ForksCounter>
+              {
+                // TODO - repository forks count
+              }
+            </ForksCounter>
             <ForksText>Forks</ForksText>
           </Forks>
 
           <OpenIssues>
-            <OpenIssuesCounter>{
-              // TODO - repository issues count
-            }</OpenIssuesCounter>
-            <OpenIssuesText>Issues{'\n'}Abertas</OpenIssuesText>
+            <OpenIssuesCounter>
+              {
+                // TODO - repository issues count
+              }
+            </OpenIssuesCounter>
+            <OpenIssuesText>Issues{"\n"}Abertas</OpenIssuesText>
           </OpenIssues>
         </RepoStats>
 
         <IssuesList
           data={repository.issues}
-          keyExtractor={issue => String(issue.id)}
+          keyExtractor={(issue) => String(issue.id)}
           showsVerticalScrollIndicator={false}
           renderItem={({ item: issue }) => (
             <Card
@@ -93,11 +101,11 @@ export function Repository() {
                 title: issue.title,
                 subTitle: issue.user.login,
               }}
-            // TODO - onPress prop calling 
+              // TODO - onPress prop calling
             />
           )}
         />
       </Container>
     </Background>
-  )
+  );
 }

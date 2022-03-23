@@ -1,10 +1,11 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 export const Container = styled.ImageBackground.attrs({
+  resizeMode: "contain",
+  source: require("../../assets/images/github_bg/github_bg.png"),
   imageStyle: {
-    top: '-47%'
+    top: "-47%",
   },
-  resizeMode: 'contain'
 })`
   flex: 1;
 `;

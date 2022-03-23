@@ -1,36 +1,37 @@
-import React, { useRef } from 'react';
-import { Alert } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
+import { Alert } from "react-native";
+import React, { useRef } from "react";
+import { Swipeable } from "react-native-gesture-handler";
 
-import { useRepositories } from '../../hooks/useRepositories';
-import { CardAnimation } from './CardAnimation';
+import { CardAnimation } from "./CardAnimation";
+import { useRepositories } from "../../hooks/useRepositories";
 
 import {
-  SwipeableContainer,
-  CardContainer,
   Info,
-  Image,
-  TextGroup,
-  Title,
-  Description,
   Icon,
-  DeleteContainer,
+  Image,
+  Title,
+  TextGroup,
   DeleteIcon,
-} from './styles';
+  Description,
+  CardContainer,
+  DeleteContainer,
+  SwipeableContainer,
+} from "./styles";
+
+interface CardSchema {
+  id: number;
+  title: string;
+  subTitle: string;
+  imageUrl?: string;
+}
 
 interface CardProps {
-  data: {
-    id: number;
-    title: string;
-    subTitle: string;
-    imageUrl?: string;
-  },
+  data: CardSchema;
   onPress: () => void;
 }
 
 export function Card({ data, onPress }: CardProps) {
   const swipeableRef = useRef<Swipeable>(null);
-
   const { removeRepository } = useRepositories();
 
   function handleDeleteAlert() {
@@ -41,23 +42,18 @@ export function Card({ data, onPress }: CardProps) {
         {
           text: "Não",
           onPress: () => swipeableRef.current?.close(),
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "Sim", onPress: () => removeRepository(data.id) }
+        { text: "Sim", onPress: () => removeRepository(data.id) },
       ]
     );
   }
 
   function CardContent() {
     return (
-      <CardContainer
-        hasImage={!!data.imageUrl}
-        onPress={onPress}
-      >
+      <CardContainer hasImage={!!data.imageUrl} onPress={onPress}>
         <Info>
-          {data.imageUrl && (
-            <Image source={{ uri: data.imageUrl }} />
-          )}
+          {data.imageUrl && <Image source={{ uri: data.imageUrl }} />}
 
           <TextGroup>
             <Title numberOfLines={1}>{data.title}</Title>
@@ -67,7 +63,7 @@ export function Card({ data, onPress }: CardProps) {
 
         <Icon name="chevron-right" size={20} />
       </CardContainer>
-    )
+    );
   }
 
   function SwipeableDelete() {
@@ -75,7 +71,7 @@ export function Card({ data, onPress }: CardProps) {
       <DeleteContainer>
         <DeleteIcon name="trash" size={24} />
       </DeleteContainer>
-    )
+    );
   }
 
   if (data.imageUrl) {
@@ -91,12 +87,12 @@ export function Card({ data, onPress }: CardProps) {
           <CardContent />
         </SwipeableContainer>
       </CardAnimation>
-    )
+    );
   }
 
   return (
     <CardAnimation>
       <CardContent />
     </CardAnimation>
-  )
+  );
 }

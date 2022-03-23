@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components/native';
-import { Feather } from '@expo/vector-icons'
-import { Swipeable } from 'react-native-gesture-handler';
+import { Feather } from "@expo/vector-icons";
+import styled, { css } from "styled-components/native";
+import { Swipeable } from "react-native-gesture-handler";
 
 interface CardContainerProps {
   hasImage: boolean;
@@ -8,24 +8,24 @@ interface CardContainerProps {
 
 export const SwipeableContainer = styled(Swipeable).attrs({
   containerStyle: {
-    marginBottom: 12
-  }
+    marginBottom: 12,
+  },
 })``;
 
 export const CardContainer = styled.Pressable<CardContainerProps>`
-  padding: 12px 18px;
-        
-  border-radius: 5px;
-
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  background-color: #FFF;
+  padding: 12px 18px;
+  border-radius: 5px;
+  background-color: #fff;
 
-  ${({ hasImage }) => !hasImage && css`
+  ${({ hasImage }) =>
+    !hasImage &&
+    css`
       margin-bottom: 12px;
-  `}
+    `}
 `;
 
 export const Info = styled.View`
@@ -34,45 +34,46 @@ export const Info = styled.View`
 `;
 
 export const Image = styled.Image`
-  margin-right: 12px;
-
   width: 64px;
   height: 64px;
+
+  margin-right: 12px;
   border-radius: 32px;
 `;
 
 export const TextGroup = styled.View`
-  justify-content: space-around;
   flex: 1;
   height: 64px;
+  justify-content: space-around;
 `;
 
 export const Title = styled.Text`
+  font-size: 18px;
   color: ${({ theme }) => theme.colors.gray_700};
   font-family: ${({ theme }) => theme.fonts.bold};
-  font-size: 18px;
 `;
 
 export const Description = styled.Text`
-  color: ${({ theme }) => theme.colors.gray_400};
   font-size: 14px;
+  color: ${({ theme }) => theme.colors.gray_400};
 `;
 
 export const Icon = styled(Feather)`
   margin-left: 12px;
-
   color: ${({ theme }) => theme.colors.gray_200};
 `;
 
 export const DeleteContainer = styled.View`
+  align-items: flex-end;
+  justify-content: center;
+
   padding: 0 30px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  justify-content: center; 
-  align-items: flex-end; 
+
   background-color: red;
 `;
 
 export const DeleteIcon = styled(Feather)`
-  color: #FFF;
+  color: #fff;
 `;
